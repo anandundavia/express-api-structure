@@ -19,3 +19,5 @@ sessions
 
 # zsh Files
 .zshrc
+
+.DS_Store
