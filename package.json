@@ -1,12 +1,8 @@
 {
-    "name": "insite_backend",
+    "name": "api-structure",
     "version": "1.0.0",
-    "description": "Backend for InSite GLS",
-    "author": "Anand Undavia <anand.undavia@tcs.com>",
+    "description": "API Structure",
     "main": "src/index.js",
-    "engines": {
-        "node": ">=8"
-    },
     "scripts": {
         "start": "nodemon ./src/index.js",
         "lint": "eslint **/*.js --ignore-path .gitignore --ignore-pattern internals/scripts",
@@ -31,9 +27,7 @@
         "helmet": "^3.12.0",
         "http-status": "^1.0.1",
         "joi": "^13.2.0",
-        "manage-users": "^1.2.1",
         "moment": "^2.22.1",
-        "mongodb": "^3.0.7",
         "morgan": "^1.9.0",
         "session-file-store": "^1.2.0",
         "tmp": "0.0.33",

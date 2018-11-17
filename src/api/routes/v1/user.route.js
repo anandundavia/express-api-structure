@@ -1,16 +1,17 @@
 const express = require('express');
-const { routes } = require('manage-users');
+const validate = require('express-validation');
 
 const controller = require('../../controllers/user.controller');
+const validation = require('../../validations/user.validation');
 const authenticated = require('../../middlewares/authenticated');
 
 const router = express.Router();
 
-router.route('/signup').post(routes.signup(), controller.signup);
-router.route('/login').post(routes.login(), controller.login);
-router.route('/logout').all(controller.logout);
-router.route('/changePassword').post(routes.changePassword(), controller.changePassword);
+// un protected route
+// Notice the same names of functions/object in validation and controller
+router.route('/greet-me').get(validate(validation.me), controller.me);
 
-router.route('/me').all(authenticated, controller.me);
+// protected route
+router.route('/greet-me-protected').get(authenticated, validate(validation.me), controller.me);
 
 module.exports = router;

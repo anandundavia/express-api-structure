@@ -2,15 +2,11 @@ const express = require('express');
 const compress = require('compression');
 const helmet = require('helmet');
 const morgan = require('morgan');
-// const expressSession = require('express-session');
 const cors = require('cors');
 const tmp = require('tmp');
-const { config } = require('manage-users');
 
 const { logs, corsOptions } = require('../constants');
 const session = require('./session');
-/* eslint-disable-next-line no-unused-vars */
-const updatedConfig = require('./users')(config);
 const routes = require('../api/routes/v1');
 const error = require('../api/middlewares/error');
 
@@ -19,6 +15,8 @@ const error = require('../api/middlewares/error');
  * @public
  */
 const app = express();
+
+// TODO: Include CSRF middlewares here
 
 // request logging. dev: console | production: file
 app.use(morgan(logs));
@@ -35,17 +33,15 @@ app.use(helmet());
 
 // This middleware take care of the origin when the origin is undefined.
 // origin is undefined when request is local
+// ! You might want to remove this in prod
 app.use((req, res, next) => {
     req.headers.origin = req.headers.origin || req.headers.host;
     next();
 });
 app.use(cors(corsOptions));
 
+// session middlewares
 app.use(session());
-
-// initialize manage-users config
-app.use(config.passport.initialize());
-app.use(config.passport.session());
 
 // mount api v1 routes
 app.use('/v1', routes);

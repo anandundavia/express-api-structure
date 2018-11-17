@@ -6,7 +6,7 @@ module.exports = new winston.Logger({
             timestamp: true,
             colorize: true,
             prettyPrint: true,
-            label: 'insite-gls-backend',
+            label: 'api-structure',
         }),
     ],
 });

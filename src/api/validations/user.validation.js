@@ -1,14 +1,17 @@
 const Joi = require('joi');
 
 module.exports = {
-    // POST /v1/user/signup
-    // Only name is required,
-    // Email, password, confirm is taken care by manage-users
-    signup: {
-        body: Joi.object()
-            .keys({
-                name: Joi.string().required(),
-            })
-            .unknown(true),
+    // POST /v1/user/greet-me?name=<some_name>
+    me: {
+        query: {
+            name: Joi.string().required(),
+        },
+        // you can write validations for body and param as well
+        // body: {
+        //     name: Joi.string().required(),
+        // },
+        // param: {
+        //     name: Joi.string().required(),
+        // },
     },
 };
