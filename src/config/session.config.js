@@ -23,6 +23,4 @@ const options = {
 	}),
 };
 
-const middleware = () => expressSession(options);
-
-module.exports = middleware;
+module.exports = () => expressSession(options);
