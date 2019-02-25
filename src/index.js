@@ -7,7 +7,6 @@ app.listen(port, (err) => {
 	if (err) {
 		return logger.error('server failed to start', err);
 	}
-	const a = 3;
 	return logger.info(`server started [env, port] = [${env}, ${port}]`);
 });
 
