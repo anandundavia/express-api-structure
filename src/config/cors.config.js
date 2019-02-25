@@ -20,7 +20,7 @@ const options = {
 			callback(new APIError(error), false);
 		}
 	},
-	credentials: true,
+	credentials: false,
 };
 
 module.exports = () => cors(options);
