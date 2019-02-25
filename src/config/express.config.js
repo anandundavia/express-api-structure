@@ -2,11 +2,13 @@ const express = require('express');
 const compress = require('compression');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const cors = require('cors');
 const tmp = require('tmp');
 
-const { logs, corsOptions } = require('../constants');
-const session = require('./session');
+const { logs } = require('../constants');
+
+const session = require('./session.config');
+const cors = require('./cors.config');
+
 const routes = require('../api/routes/v1');
 const error = require('../api/middlewares/error');
 
@@ -33,18 +35,22 @@ app.use(helmet());
 
 // This middleware take care of the origin when the origin is undefined.
 // origin is undefined when request is local
-// ! You might want to remove this in prod
-app.use((req, res, next) => {
-    req.headers.origin = req.headers.origin || req.headers.host;
-    next();
+app.use((req, _, next) => {
+	req.headers.origin = req.headers.origin || req.headers.host;
+	next();
 });
-app.use(cors(corsOptions));
 
-// session middlewares
+/**
+ * App Configurations
+ */
+// CORS configuration
+app.use(cors());
+
+// session configuration
 app.use(session());
 
 // mount api v1 routes
-app.use('/v1', routes);
+app.use('/api/v1', routes);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(error.converter);
