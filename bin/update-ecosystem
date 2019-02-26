@@ -56,11 +56,12 @@ if (defaults.apps && defaults.apps.length >= 1) {
 	config.env = mergedEnv;
 }
 
-const toPrint = {
+const ecosystemToWrite = {
 	apps: [config],
 };
 
 const outputFilePath = path.join(process.cwd(), 'deployment', 'ecosystem.config.json');
 log(`generating ${outputFilePath}`);
-fs.writeFileSync(outputFilePath, JSON.stringify(toPrint, null, 4));
+fs.writeFileSync(outputFilePath, JSON.stringify(ecosystemToWrite, null, 4));
+log('\n', JSON.stringify(ecosystemToWrite, null, 4));
 log('success');

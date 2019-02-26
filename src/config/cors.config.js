@@ -14,8 +14,8 @@ const options = {
 			callback(null, true);
 		} else {
 			const error = {
-				message: `'${origin}' is not allowed to access`,
-				status: httpStatus.UNAUTHORIZED,
+				message: `'${origin}' is not allowed to access the specified route/resource`,
+				status: httpStatus.FORBIDDEN,
 			};
 			callback(new APIError(error), false);
 		}
