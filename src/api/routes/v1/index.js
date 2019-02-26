@@ -13,6 +13,7 @@ router.get('/status', (req, res) => {
 		message: 'OK',
 		timestamp: new Date().toISOString(),
 		IP: req.ip,
+		URL: req.originalUrl,
 	});
 });
 

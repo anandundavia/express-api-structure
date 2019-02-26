@@ -13,6 +13,9 @@ const handler = (err, req, res, next) => {
 		message: err.message || httpStatus[err.status],
 		errors: err.errors,
 		stack: err.stack,
+		timestamp: new Date().toISOString(),
+		IP: req.ip,
+		URL: req.originalUrl,
 	};
 
 	if (env !== 'development') {
@@ -54,7 +57,7 @@ exports.converter = (err, req, res, next) => {
  * Catch 404 and forward to error handler
  * @public
  */
-exports.notFound = (req, res, next) => {
+exports.notFound = (req, res) => {
 	const err = new APIError({
 		message: 'Not found',
 		status: httpStatus.NOT_FOUND,
