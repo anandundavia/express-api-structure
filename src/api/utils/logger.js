@@ -22,13 +22,13 @@ const options = (prefix) => ({
 	transports: [
 		new transports.Console(),
 		new transports.DailyRotateFile({
-			filename: 'logs/%DATE%/combined.log',
+			filename: 'logs/server/%DATE%/combined.log',
 			datePattern: 'DD-MMM-YYYY',
 			level: 'debug',
 			format: format.combine(format.uncolorize()),
 		}),
 		new transports.DailyRotateFile({
-			filename: 'logs/%DATE%/errors.log',
+			filename: 'logs/server/%DATE%/errors.log',
 			datePattern: 'DD-MMM-YYYY',
 			level: 'error',
 			format: format.combine(format.uncolorize()),
