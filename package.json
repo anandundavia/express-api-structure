@@ -1,36 +1,60 @@
 {
-    "name": "api-structure",
-    "version": "1.0.0",
-    "description": "API Structure",
-    "main": "src/index.js",
-    "scripts": {
-        "start": "nodemon ./src/index.js",
-        "lint": "eslint **/*.js --ignore-path .gitignore --ignore-pattern internals/scripts",
-        "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 20000 --recursive src/api/tests"
-    },
-    "devDependencies": {
-        "chai": "^4.1.0",
-        "eslint": "^4.2.0",
-        "eslint-config-airbnb-base": "^12.0.1",
-        "eslint-plugin-import": "^2.2.0",
-        "mocha": "^3.3.0",
-        "nodemon": "^1.11.0",
-        "pm2": "^2.10.4"
-    },
-    "dependencies": {
-        "compression": "^1.7.2",
-        "cors": "^2.8.4",
-        "dotenv-safe": "^5.0.1",
-        "express": "^4.16.3",
-        "express-session": "^1.15.6",
-        "express-validation": "^1.0.2",
-        "helmet": "^3.12.0",
-        "http-status": "^1.0.1",
-        "joi": "^13.2.0",
-        "moment": "^2.22.1",
-        "morgan": "^1.9.0",
-        "session-file-store": "^1.2.0",
-        "tmp": "0.0.33",
-        "winston": "^2.4.2"
-    }
+	"name": "api-structure",
+	"version": "2.0.0",
+	"description": "API Structure",
+	"main": "src/index.js",
+	"author": {
+		"name": "Anand Undavia",
+		"email": "abundavia@gmail.com"
+	},
+	"scripts": {
+		"start:dev": "nodemon .",
+		"lint": "eslint **/*.js --ignore-path .gitignore --ignore-pattern internals/scripts",
+		"test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 20000 --recursive src/api/tests",
+		"pack": "rm -rf pkg/*.tgz && npm pack && mkdir -p pkg && mv *.tgz pkg/",
+		"update-ecosystem": "./bin/update-ecosystem",
+		"docker-build": "docker build -f deployment/Dockerfile . -t $npm_package_name:$npm_package_version --build-arg APP_NAME=$npm_package_name",
+		"build": "npm run update-ecosystem && npm run pack && npm run docker-build"
+	},
+	"devDependencies": {
+		"chai": "^4.1.0",
+		"eslint": "^5.12.1",
+		"eslint-config-airbnb-base": "^13.1.0",
+		"eslint-plugin-import": "^2.2.0",
+		"eslint-plugin-prettier": "^3.0.1",
+		"husky": "^1.3.1",
+		"lint-staged": "^8.1.4",
+		"mocha": "^5.2.0",
+		"nodemon": "^1.11.0",
+		"pm2": "^3.2.9",
+		"prettier": "^1.16.4"
+	},
+	"dependencies": {
+		"compression": "^1.7.2",
+		"cors": "^2.8.4",
+		"dotenv-safe": "^6.1.0",
+		"express": "^4.16.3",
+		"express-session": "^1.15.6",
+		"express-validation": "^1.0.2",
+		"helmet": "^3.12.0",
+		"http-status": "^1.0.1",
+		"joi": "^14.3.1",
+		"moment": "^2.22.1",
+		"morgan": "^1.9.0",
+		"session-file-store": "^1.2.0",
+		"tmp": "0.0.33",
+		"winston": "^3.2.1",
+		"winston-daily-rotate-file": "^3.6.0"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.{js,json,md}": [
+			"prettier --write --config ./internals/.prettierrc",
+			"git add"
+		]
+	}
 }

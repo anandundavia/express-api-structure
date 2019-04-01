@@ -21,3 +21,12 @@ sessions
 .zshrc
 
 .DS_Store
+
+# Packaged files
+pkg
+
+# Tarballs and Archives
+.zip
+.tar.gz
+.gz
+.tgz

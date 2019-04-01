@@ -1,0 +1,67 @@
+#! /usr/local/bin/node
+const fs = require('fs');
+const path = require('path');
+
+const log = (...msg) => console.log('[update-ecosystem]', ...msg);
+
+let defaults = {};
+const defaultEcosystemFilePath = path.join(process.cwd(), 'deployment', 'ecosystem.default.js');
+if (fs.existsSync(defaultEcosystemFilePath)) {
+	defaults = require(defaultEcosystemFilePath);
+	log(`defaults found at ${defaultEcosystemFilePath}. They will have higher preference.`);
+} else {
+	log(
+		`no default ecosystem.config.js file found. You can have default ecosystem configuration file at ${defaultEcosystemFilePath}`
+	);
+}
+
+const name = process.env.npm_package_name;
+const script = process.env.npm_package_main;
+const envPath = path.join(process.cwd(), '.env');
+
+const envContents = fs.readFileSync(envPath, 'utf-8');
+const envLines = envContents
+	.split('\n')
+	.map((aLine) => {
+		if (aLine.includes('=')) {
+			return aLine.split('=').map((aToken) => aToken.trim());
+		}
+		return null;
+	})
+	.filter((aLine) => !!aLine && aLine.length >= 1);
+
+const env = envLines.reduce((acc, current) => {
+	const key = current[0];
+	let value = current[1];
+	if (value.startsWith("'") || value.startsWith('"')) {
+		value = value.substring(1);
+	}
+	if (value.endsWith("'") || value.endsWith('"')) {
+		value = value.substring(0, value.length - 1);
+	}
+	acc[key] = value;
+	return acc;
+}, {});
+
+let config = {
+	name,
+	script,
+};
+
+if (defaults.apps && defaults.apps.length >= 1) {
+	const toMerge = defaults.apps[0];
+	const toMergeEnv = toMerge.env || {};
+	const mergedEnv = Object.assign(env, toMergeEnv);
+	config = Object.assign(config, toMerge);
+	config.env = mergedEnv;
+}
+
+const ecosystemToWrite = {
+	apps: [config],
+};
+
+const outputFilePath = path.join(process.cwd(), 'deployment', 'ecosystem.config.json');
+log(`generating ${outputFilePath}`);
+fs.writeFileSync(outputFilePath, JSON.stringify(ecosystemToWrite, null, 4));
+log('\n', JSON.stringify(ecosystemToWrite, null, 4));
+log('success');

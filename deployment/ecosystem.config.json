@@ -1,0 +1,16 @@
+{
+	"apps": [
+		{
+			"name": "api-structure",
+			"script": "src/index.js",
+			"max_restarts": 20,
+			"exec_mode": "cluster",
+			"max_memory_restart": "200M",
+			"env": {
+				"NODE_ENV": "development",
+				"PORT": "8000",
+				"SESSION_SECRET": "some_string"
+			}
+		}
+	]
+}
