@@ -8,6 +8,8 @@ app.listen(port, (err) => {
 		return logger.error('server failed to start', err);
 	}
 	return logger.info(`server started [env, port] = [${env}, ${port}]`);
+
+	console.log(port);
 });
 
 /**
