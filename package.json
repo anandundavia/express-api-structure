@@ -42,7 +42,7 @@
 		"moment": "^2.22.1",
 		"morgan": "^1.9.0",
 		"session-file-store": "^1.2.0",
-		"tmp": "0.0.33",
+		"tmp": "0.2.6",
 		"winston": "^3.2.1",
 		"winston-daily-rotate-file": "^3.6.0"
 	},
